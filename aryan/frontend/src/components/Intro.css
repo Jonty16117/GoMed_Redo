@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2');
+body { 
+    display: flex;
+    background-image: url('https://th.bing.com/th/id/R.6917b1cdfdcc83150198376450d1b0d6?rik=HsliC%2b%2fNYan2qw&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2fd%2f7%2f8%2f302180.jpg&ehk=eFlHQHnHGsE7gzJgvG%2bbuB0PXwuzeI6oazJ5fQFqpec%3d&risl=&pid=ImgRaw&r=0');
+    background-size: cover;
+    background-position: center;
+    display:flex;
+    border: 5px solid black;
+    padding: 10px;
+    min-height: 100vh; 
+    align-items: center;
+    color: red;
+  }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+.wrapper{ 
+    display: inline-flex;
+}
+.box {
+    border: 2px solid #000;
+    padding: 20px;
+    display: inline-block; 
+    background-color: rgba(0, 0, 0, 0.8);
+    width: relative;
+    height: relative;
+    border-radius: 10px;
+    margin: 70px;
+}
+.wrapper .static-txt {
+    color:rgb(236, 236, 13);
+    font-size: 60px;
+    font-weight: 400;
+}
+
+.wrapper .static-txt{ 
+    color: #fff;
+    font-size: 60px;
+    font-weight: 400;
+}
+/* .wrapper .dynamic-txts{
+    margin-left: 15px;
+} */
+.dynamic-txts li{
+    color: #FC6D6D;
+    list-style: none; 
+    font-size: 45px;
+    font-weight:500;
+}
+/* .dynamic-txts li span{
+    position: relative;
+} */
+/* .dynamic-txts li span::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    height : 100%;
+    width : 100%;
+    background: rgba(0, 0, 0);
+    border-left: 2px solid #FC6D6D;
+    animation: typing 4.5s steps(20) infinite;
+} */
+
+.button{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    background-color: #3498db;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    outline: none;
+}
+
+.button:hover {
+    background-color: #2980b9;
+    background-color: #1f618d;
+}
