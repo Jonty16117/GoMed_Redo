@@ -1,0 +1,11 @@
+# .gitattributes
+
+# Auto-detect text files
+* text=auto
+
+# Define binary files
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+# Add more image formats as needed
