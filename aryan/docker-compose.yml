@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+  frontend:
+    image: node:16-alpine
+    container_name: frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    environment:
+      - PORT=3000 
+      - PROXY_API=$PROXY_API
+      - PROXY_LOGIN=$PROXY_LOGIN
+    ports:
+      - "3000:3000" 
+    entrypoint: "npm i && npm start"
+  backend:
+    image: node:16-alpine
+    container_name: backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    entrypoint: "npm i && npm run"
