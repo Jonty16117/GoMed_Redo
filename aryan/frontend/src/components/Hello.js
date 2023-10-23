@@ -1,24 +1,36 @@
-// function Hello() 
-// {
-//     return(
-//         <h1>Hello</h1>
-//     )
-   
-// }
-
-// export default Hello;
-
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import "./Hello.css";
-
-const socket = io("http://localhost:5000"); 
+import { io } from "socket.io-client";
 
 function Hello() {
+  // State variables
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
 
+  // Initialize the socket using the useState hook
+  const [socket, setSocket] = useState(() => io("http://localhost:5000"));
+
+  // useEffect hook for handling side effects
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    socket.connect();
+
+    // Listen for "answer" events from the Socket.IO server
+    socket.on("answer", (data) => {
+      let msgs = chats;
+      msgs.push({ role: "server", content: data });
+      setChats(msgs);
+      setIsTyping(false);
+    });
+
+    // Clean up the socket connection on component unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, [chats, socket]);
+
+  // Handle sending messages via the socket
   const chat = async (e, message) => {
     e.preventDefault();
 
@@ -33,46 +45,12 @@ function Hello() {
 
     // Emit the user's message as a "question" event to the Socket.IO server
     socket.emit("question", message);
-
-    // Fetch is used to send the message to the server (you can adjust this based on your needs)
-    fetch("http://localhost:8000/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        chats,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        msgs.push(data.output);
-        setChats(msgs);
-        setIsTyping(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
-  // useEffect to handle answers from the Socket.IO server
-  useEffect(() => {
-    socket.on("answer", (data) => {
-      let msgs = chats;
-      msgs.push({ role: "server", content: data });
-      setChats(msgs);
-      setIsTyping(false);
-    });
-
-    // Clean up the socket connection on component unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, [chats]);
-
+  // Return JSX for the component
   return (
     <main>
-      <h1 className="logo">GoMed-ChatBOT</h1>
+    <h1 className="logo">GoMed-ChatBOT</h1>
 
       <section>
         {chats && chats.length

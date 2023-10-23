@@ -1,16 +1,22 @@
 /*
  * Import packages
  */
+
 const express = require('express');
 const app = express();
-
+const cors = require('cors');
 const http = require('http');
 const server = http.createServer(app);
 
 const { Server } = require('socket.io');
 const { response } = require("express");
 const { isTypedArray } = require('util/types');
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET","POST"]
+  }
+});
 let currentquestion_index = 1;
 let hardfallbackcounter=0;
 const acidic_questions = ["Do you experience heartburn or a burning sensation in your chest or throat?",
@@ -87,7 +93,13 @@ server.listen(5000, function() {
   console.log("server started at port 5000");
 });
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(cors({ origin: '*', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' }));
+
+
+app.get('/', (req,res)=> {
+  res.send('Hello, this is the GOMed-ChatBOT backend!');
+});
 
 io.on("connection", (socket) => {
   console.log(`connect ${socket.id}`);
