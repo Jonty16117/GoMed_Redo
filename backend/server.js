@@ -4,7 +4,7 @@ const path = require('path');
 
 
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "open-api-key",
 });
 
 const chatReq = async (req, res) => {
