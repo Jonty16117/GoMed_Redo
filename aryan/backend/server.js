@@ -80,7 +80,6 @@ hello:"Hello! I m really glad that  you have chosen my service in your tough tim
   'stomach ache': ` I m really sorry to hear that.Please bear with me for me to assess and reach a solution `,
   end:'Thank you,take care and do as you are being told,dont hesitate to use my service again'
 
-  // Add more keywords and responses as needed
 };
 
 const entries = Object.entries(keywordResponses)
@@ -116,7 +115,7 @@ io.on("connection", (socket) => {
     console.log(answers_users)
 
     // Convert the question to lowercase for case-insensitive matching
-    var question = data.toLowerCase();
+    const question = data.toLowerCase(); //const changed from var 
 
     // Look for keywords in the question
     let answer;
@@ -152,8 +151,9 @@ io.on("connection", (socket) => {
         stomach_ache()
       }
       else {
-        if(currentquestion_index=1)
-        currentquestion_index--;
+        // if(currentquestion_index===1) //change made "===" instead of "="
+        // currentquestion_index--;
+        currentquestion_index = 0; //this change was made instead of the upper two lines
       }
     }
 
@@ -170,14 +170,28 @@ io.on("connection", (socket) => {
       if ((data.toLowerCase() === 'yes' || data.toLowerCase() === 'no' || data.includes('Hi') || data.includes('End'))||data.includes(keywordResponses)) {
         hardfallbackcounter = 0
       }
+      // if (currentquestion_index < acidic_questions.length) {
+      //   const nextQuestion = acidic_questions[currentquestion_index];
+      //   currentquestion_index++
+      //   setTimeout(() => {
+      //     socket.emit("answer", nextQuestion);
+      //   }, 1000);
+
+      // }
       if (currentquestion_index < acidic_questions.length) {
         const nextQuestion = acidic_questions[currentquestion_index];
-        currentquestion_index++
+        currentquestion_index++;
+    
+        if (!(data.toLowerCase() === 'yes' || data.toLowerCase() === 'no' || data.includes('Hi') || data.includes('End'))) {
+            // Wait for the next user input without emitting an answer
+            return;
+        }
+    
         setTimeout(() => {
-          socket.emit("answer", nextQuestion);
+            socket.emit("answer", nextQuestion);
         }, 1000);
-
-      }
+    }
+    
       if(currentquestion_index==acidic_questions.length+1 || data=='End'){
         socket.disconnect()
       }
@@ -190,6 +204,5 @@ io.on("connection", (socket) => {
     }
 
   });
-
 });
 
