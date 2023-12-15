@@ -1,0 +1,27 @@
+version: "3.5"
+
+services:
+  gomed:
+    image: node:16-alpine
+    container_name: frontend
+    working_dir: /app
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    environment:
+      - PORT=3000 
+      - PROXY_API=$PROXY_API
+      - PROXY_LOGIN=$PROXY_LOGIN
+    ports:
+      - "3000:3000" 
+  backend:
+    image: node:16-alpine
+    container_name: backend
+    working_dir: /app
+    build: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+   
+   
